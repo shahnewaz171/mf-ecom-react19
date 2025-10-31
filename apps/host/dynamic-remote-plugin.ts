@@ -1,5 +1,25 @@
 import type { ModuleFederationRuntimePlugin } from '@module-federation/enhanced/runtime';
 
+interface SharePackageType {
+  version: string;
+  from: string;
+  useIn: string[];
+}
+
+const getSharedPackage = (sharedScope: object): SharePackageType =>
+  Object.entries(sharedScope).reduce((acc: any, [pkgName, versions]) => {
+    const versionEntries = Object.entries(versions);
+    const [version, details] = versionEntries[0];
+    const shared = details as unknown as SharePackageType;
+
+    acc[pkgName] = {
+      version,
+      from: shared.from,
+      usedIn: shared.useIn,
+    };
+    return acc;
+  }, {} as SharePackageType);
+
 const runtimePlugin: () => ModuleFederationRuntimePlugin = function () {
   return {
     name: 'dynamic-remote-plugin',
@@ -14,7 +34,9 @@ const runtimePlugin: () => ModuleFederationRuntimePlugin = function () {
       return args;
     },
     async onLoad(args) {
-      console.log('onLoad: ', args);
+      const sharedScope = args.options.host.shareScopeMap['default'];
+      const sharedPkg = getSharedPackage(sharedScope);
+      console.log('Shared Packages in Host:', sharedPkg);
       return args;
     },
   };
