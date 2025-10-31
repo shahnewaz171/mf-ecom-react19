@@ -6,6 +6,9 @@ import { resolve } from 'path';
 export default createModuleFederationConfig({
   name: 'host',
   filename: 'remoteEntry.js',
+  experiments: {
+    provideExternalRuntime: true,
+  },
   remotes: {
     products: 'products@http://fake.com/mf-manifest.json',
   },
