@@ -1,17 +1,27 @@
 import styles from './app.module.css';
 
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { loadRemote } from '@module-federation/enhanced/runtime';
 import Header from '../components/header';
 import Footer from '../components/footer';
 
 const ProductsGrid = lazy(() =>
-  loadRemote<{ default: React.ComponentType }>('products/ProductsGrid').then(
+  loadRemote('products/ProductsGrid').then(
     (module) => module || { default: () => null }
   )
 );
 
+const fetchTest = async () => {
+  const testHookModule = await loadRemote('products/useTest');
+  const testHook = testHookModule?.default();
+  console.log('Fetched Test Data:', testHook);
+};
+
 export function App() {
+  useEffect(() => {
+    fetchTest();
+  }, []);
+
   return (
     <div className={styles.app}>
       <Header />

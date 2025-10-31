@@ -6,11 +6,11 @@ import { ErrorBoundary } from 'react-error-boundary';
 import App from './app/app';
 
 registerRemotes([
-  {
-    name: 'products',
-    alias: 'products',
-    entry: 'http://localhost:4201/mf-manifest.json',
-  },
+  // {
+  //   name: 'products',
+  //   alias: 'products',
+  //   entry: 'http://localhost:4201/mf-manifest.json',
+  // },
 ]);
 
 const root = ReactDOM.createRoot(

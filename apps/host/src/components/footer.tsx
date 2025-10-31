@@ -107,7 +107,9 @@ export default function Footer() {
       </div>
 
       <div className={styles.bottom}>
-        <p className={styles.copyright}>© 2025 ShopHub. All rights reserved.</p>
+        <p className={styles.copyright}>
+          © 2025 Muhammad Shahnewaz. All rights reserved.
+        </p>
       </div>
     </footer>
   );

@@ -1,4 +1,4 @@
-import ProductCard from './product-card';
+import ProductCard from './card/product-card';
 import styles from './products-grid.module.css';
 
 const products = [

@@ -53,6 +53,7 @@ module.exports = {
       {
         dts: {
           tsConfigPath: './tsconfig.app.json',
+          generateTypes: true,
         },
       }
     ),
