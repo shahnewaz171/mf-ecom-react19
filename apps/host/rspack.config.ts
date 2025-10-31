@@ -1,7 +1,7 @@
 import { NxAppRspackPlugin } from '@nx/rspack/app-plugin';
 import { NxReactRspackPlugin } from '@nx/rspack/react-plugin';
 import { join } from 'path';
-import { NxModuleFederationPlugin } from '@nx/module-federation/rspack';
+import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
 import mfconfig from './module-federation.config';
 
 module.exports = {
@@ -40,16 +40,6 @@ module.exports = {
       // See: https://react-svgr.com/
       // svgr: false
     }),
-    new NxModuleFederationPlugin(
-      {
-        config: mfconfig,
-      },
-      {
-        dts: {
-          tsConfigPath: './tsconfig.app.json',
-          generateTypes: true,
-        },
-      }
-    ),
+    new ModuleFederationPlugin(mfconfig),
   ],
 };

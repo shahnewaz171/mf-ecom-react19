@@ -1,18 +1,24 @@
-import { ModuleFederationConfig } from '@nx/module-federation';
+import { createModuleFederationConfig } from '@module-federation/enhanced/rspack';
 
-// const sharedLibraries = ['react', 'react-dom', 'react-router-dom'];
-
-const config: ModuleFederationConfig = {
+export default createModuleFederationConfig({
   name: 'products',
   exposes: {
     './ProductsGrid': './src/components/products/products-grid.tsx',
     './useTest': './src/components/hooks/useTest.ts',
   },
-  // shared: (libraryName, sharedConfig) => {
-  //   if (!sharedLibraries.includes(libraryName)) {
-  //     return false;
-  //   }
-  // },
-};
-
-export default config;
+  shared: {
+    react: {
+      singleton: true,
+    },
+    'react-dom': {
+      singleton: true,
+    },
+    'react-router-dom': {
+      singleton: true,
+    },
+  },
+  dts: {
+    tsConfigPath: './tsconfig.app.json',
+    generateTypes: true,
+  },
+});

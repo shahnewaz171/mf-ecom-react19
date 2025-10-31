@@ -1,15 +1,28 @@
-import { ModuleFederationConfig } from '@nx/module-federation';
+import { createModuleFederationConfig } from '@module-federation/enhanced/rspack';
+import { resolve } from 'path';
 
 // const sharedLibraries = ['react', 'react-dom', 'react-router-dom'];
 
-const config: ModuleFederationConfig = {
+export default createModuleFederationConfig({
   name: 'host',
-  remotes: [['products', 'http://localhost:4201/mf-manifest.json']],
-  // shared: (libraryName, sharedConfig) => {
-  //   if (!sharedLibraries.includes(libraryName)) {
-  //     return false;
-  //   }
-  // },
-};
-
-export default config;
+  filename: 'remoteEntry.js',
+  remotes: {
+    products: 'products@http://fake.com/mf-manifest.json',
+  },
+  shared: {
+    react: {
+      singleton: true,
+    },
+    'react-dom': {
+      singleton: true,
+    },
+    'react-router-dom': {
+      singleton: true,
+    },
+  },
+  dts: {
+    tsConfigPath: './tsconfig.app.json',
+    generateTypes: true,
+  },
+  runtimePlugins: [resolve(__dirname, './dynamic-remote-plugin.ts')],
+});
