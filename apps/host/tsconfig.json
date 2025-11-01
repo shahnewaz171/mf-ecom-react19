@@ -2,7 +2,11 @@
   "files": [],
   "include": [],
   "compilerOptions": {
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "*": ["app/host/@mf-types/*"],
+      "@mf-ecom-react19/logger": ["packages/logger/src/index.ts"]
+    }
   },
   "references": [
     {

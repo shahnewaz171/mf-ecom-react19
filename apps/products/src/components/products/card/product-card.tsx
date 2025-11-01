@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { logger } from '@mf-ecom-react19/logger';
 import styles from './product-card.module.css';
 
 interface ProductCardProps {
@@ -19,6 +20,7 @@ export default function ProductCard({
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
+    logger.logInfo(`Viewing details for product ${id}`);
     navigate(`/product/${id}`);
   };
 

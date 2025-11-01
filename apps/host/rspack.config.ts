@@ -1,6 +1,6 @@
 import { NxAppRspackPlugin } from '@nx/rspack/app-plugin';
 import { NxReactRspackPlugin } from '@nx/rspack/react-plugin';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
 import mfconfig from './module-federation.config';
 
@@ -17,6 +17,15 @@ module.exports = {
       disableDotRule: true,
       htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
     },
+  },
+  resolve: {
+    alias: {
+      '@mf-ecom-react19/logger': resolve(
+        __dirname,
+        '../../packages/logger/src/index.ts'
+      ),
+    },
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
   ignoreWarnings: [
     {

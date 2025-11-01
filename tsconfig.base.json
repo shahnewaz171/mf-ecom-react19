@@ -2,12 +2,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": ".",
-    "customConditions": ["@host/source"],
+    "customConditions": ["@mf-ecom-react19/source"],
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "lib": ["es2022"],
+    "lib": ["es2022", "dom"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmitOnError": true,
@@ -22,7 +22,8 @@
     "strict": true,
     "target": "es2022",
     "paths": {
-      "products/*": ["apps/host/@mf-types/products/*"]
+      "products/*": ["apps/host/@mf-types/*"],
+      "@mf-ecom-react19/logger": ["packages/logger/src/index.ts"]
     }
   }
 }

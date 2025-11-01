@@ -1,5 +1,9 @@
 {
-  "name": "host",
-  "version": "0.0.1",
-  "private": true
+  "name": "@mf-ecom-react19/host",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@mf-ecom-react19/logger": "workspace:*"
+  }
 }

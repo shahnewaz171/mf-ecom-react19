@@ -15,6 +15,12 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
+      '@typescript-eslint/ban-ts-comment': [
+        'error',
+        {
+          'ts-expect-error': false, // This disables the requirement for a description
+        },
+      ],
       '@nx/enforce-module-boundaries': [
         'error',
         {
