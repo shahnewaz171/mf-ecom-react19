@@ -1,10 +1,12 @@
+import { withZephyr } from 'zephyr-rspack-plugin';
 import { NxAppRspackPlugin } from '@nx/rspack/app-plugin';
 import { NxReactRspackPlugin } from '@nx/rspack/react-plugin';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
 import mfconfig from './module-federation.config';
 
-module.exports = {
+module.exports = withZephyr()({
+  context: __dirname,
   output: {
     path: join(__dirname, '../../dist/apps/products'),
     publicPath: 'auto',
@@ -22,6 +24,16 @@ module.exports = {
       index: '/index.html',
       disableDotRule: true,
       htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
+    },
+    watchFiles: [resolve(__dirname, 'src')],
+    onListening: function (devServer) {
+      if (!devServer) {
+        throw new Error('rspack-dev-server is not defined');
+      }
+      const port = devServer.server.address().port;
+      console.log(
+        `\n✅ Products remote is running on http://localhost:${port}\n`
+      );
     },
   },
   ignoreWarnings: [
@@ -48,4 +60,4 @@ module.exports = {
     }),
     new ModuleFederationPlugin(mfconfig),
   ],
-};
+});

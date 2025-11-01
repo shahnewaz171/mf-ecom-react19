@@ -15,12 +15,15 @@ export default createModuleFederationConfig({
   shared: {
     react: {
       singleton: true,
+      eager: true,
     },
     'react-dom': {
       singleton: true,
+      eager: true,
     },
     'react-router-dom': {
       singleton: true,
+      eager: true,
     },
   },
   dts: {
