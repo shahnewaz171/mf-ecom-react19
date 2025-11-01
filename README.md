@@ -1,59 +1,124 @@
 # mf-ecom-react19
 
-This is my personal learning project where I'm diving deep into Micro Frontends using Module Federation within an Nx monorepo.
-
-The workspace has a minimal microfrontend setup with two main apps:
-
-- `host` — the shell application that brings together remote microfrontends
-- `products` — a remote app that exposes a simple button component
-
-## What I'm Learning
-
-I built this repo to experiment and learn hands-on. Here's what I'm exploring:
-
-- How Module Federation works with modern bundlers (I've got both rspack and vite configs in here)
-- Sharing TypeScript types between apps (check out `@mf-types`)
-- Working with Nx monorepo structure and running tasks
+This is an evolving learning project where I'm continuously adding advanced micro frontend patterns, Nx capabilities, and Module Federation techniques. The goal is to build a comprehensive reference implementation for production-ready micro frontends.
 
 ## Getting Started
 
-First, make sure Node.js (LTS) is installed. I'm using pnpm for package management here.
+Prerequisites: Node.js 18+ and pnpm installed.
 
-To run the host app in dev mode:
+Install dependencies:
 
 ```zsh
+pnpm install
+```
+
+**Important**: Start the remote first, then the host:
+
+```zsh
+# Terminal 1: Start products remote
+npx nx serve products
+
+# Terminal 2: Start host application
 npx nx serve host
 ```
 
-To start the products remote separately:
+Or run both together:
 
 ```zsh
-npx nx serve products
+npx nx run-many -t serve -p products host
 ```
 
-To build for production:
+Access the apps:
+
+- Host: http://localhost:4200
+- Products Remote: http://localhost:4201
+
+Build for production:
 
 ```zsh
 npx nx build host
+npx nx build products
 ```
 
-## How It's Organized
+View dependency graph:
 
-- `apps/host` — The main shell app that loads remotes via Module Federation
-- `apps/products` — Remote app with a `RemoteButton` component
-- `@mf-types` — TypeScript definitions I wrote to share types between apps
-- Config files — Various `module-federation.config.ts`, `rspack.config.ts`, and `vite.config.ts` files showing different bundler setups
+```zsh
+npx nx graph
+```
 
-## Key Learnings
+### Module Federation Mastery
 
-- **Module Federation Setup**: Successfully configured Module Federation with both rspack and vite bundlers in an Nx monorepo
-- **Dynamic Remote Loading**: Implemented runtime loading of remote microfrontends, allowing the host to fetch and integrate remote modules on-demand without bundling them together
-- **Type Safety Across Apps**: Created shared TypeScript type definitions in `@mf-types` to maintain type safety between the host and remote apps
-- **Remote Component Exposure**: Built and exposed a `RemoteButton` component from the products app that the host can consume dynamically
-- **Nx Task Orchestration**: Learned how to run and build multiple apps independently using Nx commands
-- **Host-Remote Architecture**: Implemented a shell app (host) that loads and composes UI from remote microfrontends at runtime, enabling true independent deployment
-- **Type Declaration Management**: Discovered the importance of keeping type declarations in sync when changing remote interfaces
+- **Exposing Multiple Modules**: Products remote exposes components (`ProductsGrid`, `ProductDetails`) and hooks (`useTest`)
+- **Dynamic Remote Loading**: Host consumes remote modules at runtime without bundling them together
+- **Type Federation**: Auto-generated TypeScript definitions in `@mf-types` maintain type safety across federated boundaries
+- **Shared Dependencies**: Optimized bundle size by sharing React, React-DOM, and React-Router between host and remotes
+- **Independent Deployment**: Each app can be deployed separately without affecting others
 
-## Notes
+### Nx Monorepo Capabilities
 
-Built this workspace with Nx and adapted it to learn Module Federation patterns. It's been a great learning experience so far!
+- **Task Orchestration**: Running multiple apps with `run-many` command
+- **Build Optimization**: Incremental builds and caching
+- **Dependency Graph**: Visual representation of app dependencies
+- **Code Generators**: Scaffolding new apps and components
+- **Consistent Tooling**: Shared ESLint, TypeScript, and build configurations
+
+### Products Remote (Provider)
+
+```typescript
+// module-federation.config.ts
+exposes: {
+  './ProductsGrid': './src/components/products/products-grid.tsx',
+  './ProductDetails': './src/components/products/details/product-details.tsx',
+  './useTest': './src/components/hooks/useTest.ts',
+}
+```
+
+### Host (Consumer)
+
+```typescript
+// module-federation.config.ts
+remotes: ['products'];
+```
+
+The host dynamically imports from products:
+
+```typescript
+import ProductsGrid from 'products/ProductsGrid';
+import { ProductDetailsPage } from 'products/ProductDetails';
+```
+
+## Key Technologies
+
+- **React 19** - Latest React with automatic compiler optimizations
+- **TypeScript** - Full type safety across federated modules
+- **Module Federation** - Runtime micro frontend integration
+- **Rspack** - Fast Rust-based bundler (primary)
+- **Vite** - Alternative bundler configuration available
+- **Nx** - Monorepo management and task orchestration
+- **React Router** - Client-side routing
+- **CSS Modules** - Component-scoped styling
+- **pnpm** - Fast, efficient package manager
+
+## Common Commands
+
+```zsh
+# Development
+npx nx serve host              # Start host app
+npx nx serve products          # Start products remote
+npx nx run-many -t serve       # Start all apps
+
+# Build
+npx nx build host              # Build host
+npx nx build products          # Build products
+npx nx run-many -t build       # Build all apps
+
+# Testing & Linting
+npx nx test products           # Run tests
+npx nx lint host               # Lint code
+npx nx type-check products     # Type checking
+
+# Utilities
+npx nx graph                   # View dependency graph
+npx nx show project host       # Show project details
+npx nx list                    # List installed plugins
+```
