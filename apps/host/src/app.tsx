@@ -18,12 +18,7 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StrictMode>
-    <BrowserRouter
-      future={{
-        v7_startTransition: true,
-        v7_relativeSplatPath: true,
-      }}
-    >
+    <BrowserRouter>
       <ErrorBoundary
         fallback={<div>Something went wrong.</div>}
         onError={(err) => console.log(err)}

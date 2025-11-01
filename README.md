@@ -1,83 +1,59 @@
-# NxMicrofrontendReact19
+# mf-ecom-react19
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This is my personal learning project where I'm diving deep into Micro Frontends using Module Federation within an Nx monorepo.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+The workspace has a minimal microfrontend setup with two main apps:
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+- `host` — the shell application that brings together remote microfrontends
+- `products` — a remote app that exposes a simple button component
 
-## Finish your CI setup
+## What I'm Learning
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/dRrTZYVmf3)
+I built this repo to experiment and learn hands-on. Here's what I'm exploring:
 
-## Run tasks
+- How Module Federation works with modern bundlers (I've got both rspack and vite configs in here)
+- Sharing TypeScript types between apps (check out `@mf-types`)
+- Working with Nx monorepo structure and running tasks
 
-To run the dev server for your app, use:
+## Getting Started
 
-```sh
+First, make sure Node.js (LTS) is installed. I'm using pnpm for package management here.
+
+To run the host app in dev mode:
+
+```zsh
 npx nx serve host
 ```
 
-To create a production bundle:
+To start the products remote separately:
 
-```sh
+```zsh
+npx nx serve products
+```
+
+To build for production:
+
+```zsh
 npx nx build host
 ```
 
-To see all available targets to run for a project, run:
+## How It's Organized
 
-```sh
-npx nx show project host
-```
+- `apps/host` — The main shell app that loads remotes via Module Federation
+- `apps/products` — Remote app with a `RemoteButton` component
+- `@mf-types` — TypeScript definitions I wrote to share types between apps
+- Config files — Various `module-federation.config.ts`, `rspack.config.ts`, and `vite.config.ts` files showing different bundler setups
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+## Key Learnings
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- **Module Federation Setup**: Successfully configured Module Federation with both rspack and vite bundlers in an Nx monorepo
+- **Dynamic Remote Loading**: Implemented runtime loading of remote microfrontends, allowing the host to fetch and integrate remote modules on-demand without bundling them together
+- **Type Safety Across Apps**: Created shared TypeScript type definitions in `@mf-types` to maintain type safety between the host and remote apps
+- **Remote Component Exposure**: Built and exposed a `RemoteButton` component from the products app that the host can consume dynamically
+- **Nx Task Orchestration**: Learned how to run and build multiple apps independently using Nx commands
+- **Host-Remote Architecture**: Implemented a shell app (host) that loads and composes UI from remote microfrontends at runtime, enabling true independent deployment
+- **Type Declaration Management**: Discovered the importance of keeping type declarations in sync when changing remote interfaces
 
-## Add new projects
+## Notes
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/react:app demo
-```
-
-To generate a new library, use:
-
-```sh
-npx nx g @nx/react:lib mylib
-```
-
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
-
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Install Nx Console
-
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
-
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Useful links
-
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-# mf-ecom-react19
+Built this workspace with Nx and adapted it to learn Module Federation patterns. It's been a great learning experience so far!

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import styles from './product-card.module.css';
 
 interface ProductCardProps {
@@ -15,8 +16,20 @@ export default function ProductCard({
   image,
   description,
 }: ProductCardProps) {
+  const navigate = useNavigate();
+
+  const handleViewDetails = () => {
+    navigate(`/product/${id}`);
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    console.log(`Added product ${id} to cart`);
+    // Add cart functionality here
+  };
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={handleViewDetails}>
       <div className={styles.imageContainer}>
         <img src={image} alt={name} className={styles.image} />
       </div>
@@ -25,7 +38,9 @@ export default function ProductCard({
         <p className={styles.description}>{description}</p>
         <div className={styles.footer}>
           <span className={styles.price}>${price.toFixed(2)}</span>
-          <button className={styles.button}>Add to Cart</button>
+          <button className={styles.button} onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

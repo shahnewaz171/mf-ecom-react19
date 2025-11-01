@@ -5,6 +5,7 @@ export default createModuleFederationConfig({
   filename: 'remoteEntry.js',
   exposes: {
     './ProductsGrid': './src/components/products/products-grid.tsx',
+    './ProductDetails': './src/components/products/details/product-details.tsx',
     './useTest': './src/components/hooks/useTest.ts',
   },
   shared: {
