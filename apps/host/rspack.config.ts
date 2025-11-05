@@ -2,11 +2,10 @@ import { withZephyr } from 'zephyr-rspack-plugin';
 import { NxAppRspackPlugin } from '@nx/rspack/app-plugin';
 import { NxReactRspackPlugin } from '@nx/rspack/react-plugin';
 import { join, resolve } from 'path';
-import { ModuleFederationPlugin } from '@module-federation/enhanced/rspack';
+import { NxModuleFederationPlugin } from '@nx/module-federation/rspack';
 import mfconfig from './module-federation.config';
 
 module.exports = withZephyr()({
-  context: __dirname,
   output: {
     path: join(__dirname, '../../dist/apps/host'),
     publicPath: 'auto',
@@ -18,14 +17,6 @@ module.exports = withZephyr()({
       index: '/index.html',
       disableDotRule: true,
       htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
-    },
-    watchFiles: [resolve(__dirname, 'src')],
-    onListening: function (devServer) {
-      if (!devServer) {
-        throw new Error('rspack-dev-server is not defined');
-      }
-      const port = devServer.server.address().port;
-      console.log(`\n✅ Host app is running on http://localhost:${port}\n`);
     },
   },
   resolve: {
@@ -59,6 +50,16 @@ module.exports = withZephyr()({
       // See: https://react-svgr.com/
       // svgr: false
     }),
-    new ModuleFederationPlugin(mfconfig),
+    new NxModuleFederationPlugin(
+      {
+        config: mfconfig,
+      },
+      {
+        dts: {
+          tsConfigPath: './tsconfig.app.json',
+          generateTypes: true,
+        },
+      }
+    ),
   ],
 });

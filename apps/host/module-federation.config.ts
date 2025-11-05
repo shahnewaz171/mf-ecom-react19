@@ -1,34 +1,25 @@
-import { createModuleFederationConfig } from '@module-federation/enhanced/rspack';
-import { resolve } from 'path';
+import { ModuleFederationConfig } from '@nx/module-federation';
 
-// const sharedLibraries = ['react', 'react-dom', 'react-router-dom'];
+const sharedLibraries = [
+  'react',
+  'react-dom',
+  'react-router-dom',
+  '@mf-ecom-react19/logger',
+];
 
-export default createModuleFederationConfig({
+const config: ModuleFederationConfig = {
   name: 'host',
-  filename: 'remoteEntry.js',
-  experiments: {
-    provideExternalRuntime: true,
+  remotes: ['products'],
+  shared: (library, sharedConfig) => {
+    if (sharedLibraries.includes(library)) {
+      if (library === '@mf-ecom-react19/logger') {
+        return { singleton: true, requiredVersion: false };
+      }
+      return { singleton: true };
+    }
+    return false;
   },
-  remotes: {
-    products: 'products@http://fake.com/mf-manifest.json',
-  },
-  shared: {
-    react: {
-      singleton: true,
-      eager: true,
-    },
-    'react-dom': {
-      singleton: true,
-      eager: true,
-    },
-    'react-router-dom': {
-      singleton: true,
-      eager: true,
-    },
-  },
-  dts: {
-    tsConfigPath: './tsconfig.app.json',
-    generateTypes: true,
-  },
-  runtimePlugins: [resolve(__dirname, './dynamic-remote-plugin.ts')],
-});
+  disableNxRuntimeLibraryControlPlugin: true,
+};
+
+export default config;
