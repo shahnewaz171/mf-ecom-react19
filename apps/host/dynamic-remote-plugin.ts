@@ -30,7 +30,8 @@ const runtimePlugin: () => ModuleFederationRuntimePlugin = function () {
     //   if (!remote) return args;
 
     //   // @ts-expect-error
-    //   remote.entry = 'http://localhost:4201/mf-manifest.json';
+    //   remote.entry =
+    //     'https://muhammad-shahnewaz-82-products-mf-ecom-react19-sh-ed19a7026-ze.zephyrcloud.app/remoteEntry.js';
     //   return args;
     // },
     async onLoad(args) {

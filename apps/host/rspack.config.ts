@@ -3,6 +3,7 @@ import { NxAppRspackPlugin } from '@nx/rspack/app-plugin';
 import { NxReactRspackPlugin } from '@nx/rspack/react-plugin';
 import { join, resolve } from 'path';
 import { NxModuleFederationPlugin } from '@nx/module-federation/rspack';
+import { DefinePlugin } from '@rspack/core';
 import mfconfig from './module-federation.config';
 
 module.exports = withZephyr()({
@@ -61,5 +62,8 @@ module.exports = withZephyr()({
         },
       }
     ),
+    new DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+    }),
   ],
 });
